@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MoviesHomeScreen extends StatefulWidget {
+  static const routeName = '/movie_home';
   const MoviesHomeScreen({super.key});
 
   @override
@@ -42,7 +43,8 @@ class _MoviesHomeScreenState extends State<MoviesHomeScreen> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(16.0),
+              // Search area
               child: TextField(
                 controller: _searchController,
                 decoration: const InputDecoration(
@@ -53,6 +55,7 @@ class _MoviesHomeScreenState extends State<MoviesHomeScreen> {
                 onSubmitted: _onSearchSubmitted,
               ),
             ),
+            //Movies list
             Expanded(
               child:
                   movies.isEmpty

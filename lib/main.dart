@@ -1,4 +1,5 @@
 import 'package:applion_movie_app/providers/movie_provider.dart';
+import 'package:applion_movie_app/screens/movies_details.dart';
 import 'package:applion_movie_app/screens/movies_home.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,10 +20,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Applipn Test',
+      // Todo: Theme hendling
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MoviesHomeScreen(),
+      home: MoviesHomeScreen(),
+      routes: {
+        MoviesHomeScreen.routeName: (ctx) => const MoviesHomeScreen(),
+        MoviesDetailScreen.routeName: (ctx) => const MoviesDetailScreen(),
+      },
     );
   }
 }
