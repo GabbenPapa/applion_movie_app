@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:applion_movie_app/components/movies_card.dart';
 import 'package:applion_movie_app/providers/movie_provider.dart';
+import 'package:applion_movie_app/screens/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -58,6 +59,14 @@ class _MoviesHomeScreenState extends State<MoviesHomeScreen> {
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, Settings.routeName);
+            },
+            icon: const Icon(Icons.settings),
+          ),
+        ],
       ),
       body: SafeArea(
         child: Column(
