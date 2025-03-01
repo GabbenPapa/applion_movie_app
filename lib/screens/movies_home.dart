@@ -1,3 +1,4 @@
+import 'package:applion_movie_app/components/movies_card.dart';
 import 'package:applion_movie_app/providers/movie_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -56,28 +57,7 @@ class _MoviesHomeScreenState extends State<MoviesHomeScreen> {
               child:
                   movies.isEmpty
                       ? const Center(child: CircularProgressIndicator())
-                      : ListView.builder(
-                        itemCount: movies.length,
-                        itemBuilder: (context, index) {
-                          final movie = movies[index];
-                          return ListTile(
-                            leading: Image.network(
-                              movie.fullPosterUrl,
-                              fit: BoxFit.cover,
-                              width: 50,
-                              errorBuilder: (context, error, stackTrace) {
-                                return const Icon(Icons.error);
-                              },
-                            ),
-                            title: Text(movie.title),
-                            subtitle: Text(
-                              movie.overview,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          );
-                        },
-                      ),
+                      : MoviesCard(movies: movies),
             ),
           ],
         ),
