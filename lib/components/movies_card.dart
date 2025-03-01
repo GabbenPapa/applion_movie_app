@@ -31,14 +31,18 @@ class MoviesCard extends StatelessWidget {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8),
-                    child: Image.network(
-                      movie.fullPosterUrl,
-                      fit: BoxFit.cover,
-                      width: 80,
-                      height: 120,
-                      errorBuilder: (context, error, stackTrace) {
-                        return const Icon(Icons.error, size: 80);
-                      },
+
+                    child: Hero(
+                      tag: movie.id,
+                      child: Image.network(
+                        movie.fullPosterUrl,
+                        fit: BoxFit.cover,
+                        width: 80,
+                        height: 120,
+                        errorBuilder: (context, error, stackTrace) {
+                          return const Icon(Icons.error, size: 80);
+                        },
+                      ),
                     ),
                   ),
                   const SizedBox(width: 12),

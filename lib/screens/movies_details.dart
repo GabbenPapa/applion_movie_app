@@ -53,10 +53,30 @@ class _MoviesDetailScreenState extends State<MoviesDetailScreen> {
                             children: [
                               Text(
                                 widget.movie.title,
-                                style: TextStyle(fontSize: 20),
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                               Text(
-                                '${widget.movie.voteAverage}',
+                                'Original title: ${widget.movie.originalTitle}',
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              Text(
+                                'Year: ${widget.movie.releaseDate.split("-")[0]}',
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              Text(
+                                'Original language: ${widget.movie.originalLanguage.toUpperCase()}',
+                                style: TextStyle(fontSize: 16),
+                              ),
+
+                              Text(
+                                'Votes: ${widget.movie.voteCount}',
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              Text(
+                                'Popularity: ${widget.movie.popularity.toStringAsFixed(1)}',
                                 style: TextStyle(fontSize: 16),
                               ),
                               const SizedBox(height: 10),
