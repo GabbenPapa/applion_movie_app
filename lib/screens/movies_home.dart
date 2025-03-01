@@ -51,7 +51,14 @@ class _MoviesHomeScreenState extends State<MoviesHomeScreen> {
     final movies = movieProvider.movies;
 
     return Scaffold(
-      appBar: AppBar(title: const Center(child: Text('Movies'))),
+      appBar: AppBar(
+        title: const Center(
+          child: Text(
+            'Movies',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
+          ),
+        ),
+      ),
       body: SafeArea(
         child: Column(
           children: [
@@ -61,9 +68,15 @@ class _MoviesHomeScreenState extends State<MoviesHomeScreen> {
               child: TextField(
                 controller: _searchController,
                 decoration: const InputDecoration(
-                  prefixIcon: Icon(Icons.search),
-                  hintText: 'Search for a movie',
-                  border: OutlineInputBorder(),
+                  hintStyle: TextStyle(color: Colors.grey),
+                  prefixIcon: Icon(Icons.search, color: Colors.grey),
+                  hintText: 'Search',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                    borderSide: BorderSide.none,
+                  ),
+                  filled: true,
+                  fillColor: Color.fromARGB(255, 240, 240, 240),
                 ),
                 onChanged: _onSearchChanged,
               ),
