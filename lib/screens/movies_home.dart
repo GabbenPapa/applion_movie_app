@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:applion_movie_app/components/movies_card.dart';
 import 'package:applion_movie_app/providers/movie_provider.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ class MoviesHomeScreen extends StatefulWidget {
 
 class _MoviesHomeScreenState extends State<MoviesHomeScreen> {
   final TextEditingController _searchController = TextEditingController();
+  Timer? _searchTimer;
 
   @override
   void initState() {
@@ -28,8 +30,19 @@ class _MoviesHomeScreenState extends State<MoviesHomeScreen> {
     super.dispose();
   }
 
-  void _onSearchSubmitted(String query) {
-    Provider.of<MovieProvider>(context, listen: false).fetchMovies(query);
+  void _onSearchChanged(String query) {
+    // Todo: Hotfix for a while for search when clear textfield
+    if (_searchController.text.isEmpty) {
+      Provider.of<MovieProvider>(context, listen: false).fetchMovies('');
+    }
+
+    if (_searchTimer?.isActive ?? false) _searchTimer!.cancel();
+
+    _searchTimer = Timer(const Duration(milliseconds: 500), () {
+      if (query.isNotEmpty) {
+        Provider.of<MovieProvider>(context, listen: false).fetchMovies(query);
+      }
+    });
   }
 
   @override
@@ -52,14 +65,19 @@ class _MoviesHomeScreenState extends State<MoviesHomeScreen> {
                   hintText: 'Search for a movie',
                   border: OutlineInputBorder(),
                 ),
-                onSubmitted: _onSearchSubmitted,
+                onChanged: _onSearchChanged,
               ),
             ),
             //Movies list
             Expanded(
               child:
                   movies.isEmpty
-                      ? const Center(child: CircularProgressIndicator())
+                      ? const Center(
+                        child: Text(
+                          'No movies found, search some movies!',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      )
                       : MoviesCard(movies: movies),
             ),
           ],
