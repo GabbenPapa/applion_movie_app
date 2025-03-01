@@ -34,6 +34,7 @@ class MoviesCard extends StatelessWidget {
 
                     child: Hero(
                       tag: movie.id,
+                      key: ValueKey(movie.id),
                       child: Image.network(
                         movie.fullPosterUrl,
                         fit: BoxFit.cover,

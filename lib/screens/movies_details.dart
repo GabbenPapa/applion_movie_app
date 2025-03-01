@@ -31,7 +31,8 @@ class _MoviesDetailScreenState extends State<MoviesDetailScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Hero(
-                          tag: "${widget.movie.id}",
+                          tag: widget.movie.id,
+                          key: ValueKey(widget.movie.id),
                           child: Image.network(
                             widget.movie.fullPosterUrl,
                             width: double.infinity,
