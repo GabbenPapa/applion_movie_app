@@ -1,3 +1,4 @@
+import 'package:applion_movie_app/models/movies_model.dart';
 import 'package:applion_movie_app/providers/movie_provider.dart';
 import 'package:applion_movie_app/screens/movies_details.dart';
 import 'package:applion_movie_app/screens/movies_home.dart';
@@ -27,7 +28,10 @@ class MyApp extends StatelessWidget {
       home: MoviesHomeScreen(),
       routes: {
         MoviesHomeScreen.routeName: (ctx) => const MoviesHomeScreen(),
-        MoviesDetailScreen.routeName: (ctx) => const MoviesDetailScreen(),
+        MoviesDetailScreen.routeName:
+            (ctx) => MoviesDetailScreen(
+              movie: ModalRoute.of(ctx)!.settings.arguments as Movie,
+            ),
       },
     );
   }
