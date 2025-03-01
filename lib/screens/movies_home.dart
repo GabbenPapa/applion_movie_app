@@ -1,6 +1,6 @@
+import 'package:applion_movie_app/services/services.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class MoviesHomeScreen extends StatefulWidget {
   const MoviesHomeScreen({super.key});
@@ -11,58 +11,74 @@ class MoviesHomeScreen extends StatefulWidget {
 
 class _MoviesHomeScreenState extends State<MoviesHomeScreen> {
   List<dynamic> movies = [];
+  final TextEditingController _serachController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    searchMovie('Star Wars');
+    _fetchMovies("");
   }
 
-  Future<void> searchMovie(String query) async {
-    final url =
-        'https://api.themoviedb.org/3/search/movie?query=$query&api_key=d30cc88bc0168c4e5a9385783eb9fe3f';
-    final headers = {
-      'Authorization':
-          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkMzBjYzg4YmMwMTY4YzRlNWE5Mzg1NzgzZWI5ZmUzZiIsInN1YiI6IjYzYWZlZThmNTc1MzBlMDA4NTAxMjdkMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.wrRM0IPSBjbFO-CcvxU5GsyuHeatUlZlpgV5d3TANLw',
-    };
+  @override
+  void dispose() {
+    _serachController.dispose();
+    super.dispose();
+  }
 
+  Future<void> _fetchMovies(param) async {
     try {
-      final response = await http.get(Uri.parse(url), headers: headers);
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        setState(() {
-          movies = data['results'];
-        });
-      } else {
-        // Hibakezelés
-        print('Hiba: ${response.statusCode}');
-      }
-    } catch (e) {
-      print('Kérés sikertelen: $e');
+      final results = await MovieService.searchMovie(param);
+      setState(() {
+        movies = results;
+      });
+    } catch (error) {
+      if (kDebugMode) {
+        print('Error msg: $error');
+      } // Todo: show error message and error handling
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Center(child: Text('Movies'))),
-
+      appBar: AppBar(title: const Center(child: Text('Movies'))),
       body: SafeArea(
-        child:
-            movies.isEmpty
-                ? const Center(child: CircularProgressIndicator())
-                : ListView.builder(
-                  itemCount: movies.length,
-                  itemBuilder: (context, index) {
-                    final movie = movies[index];
-                    return ListTile(
-                      title: Text(movie['title'] ?? 'No title'),
-                      subtitle: Text(
-                        movie['release_date'] ?? 'Unknown release date',
-                      ),
-                    );
-                  },
+        child: Column(
+          children: [
+            // Kereső mező
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: _serachController,
+                decoration: const InputDecoration(
+                  prefixIcon: Icon(Icons.search),
+                  hintText: 'Search for a movie',
+                  border: OutlineInputBorder(),
                 ),
+                onSubmitted: (value) {
+                  _fetchMovies(value);
+                },
+              ),
+            ),
+            Expanded(
+              child:
+                  movies.isEmpty
+                      ? const Center(child: CircularProgressIndicator())
+                      : ListView.builder(
+                        itemCount: movies.length,
+                        itemBuilder: (context, index) {
+                          final movie = movies[index];
+                          return ListTile(
+                            title: Text(movie['title'] ?? 'No title'),
+                            subtitle: Text(
+                              movie['release_date'] ?? 'Unknown release date',
+                            ),
+                          );
+                        },
+                      ),
+            ),
+          ],
+        ),
       ),
     );
   }
