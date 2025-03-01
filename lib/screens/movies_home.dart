@@ -1,6 +1,6 @@
-import 'package:applion_movie_app/services/services.dart';
-import 'package:flutter/foundation.dart';
+import 'package:applion_movie_app/providers/movie_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MoviesHomeScreen extends StatefulWidget {
   const MoviesHomeScreen({super.key});
@@ -10,54 +10,46 @@ class MoviesHomeScreen extends StatefulWidget {
 }
 
 class _MoviesHomeScreenState extends State<MoviesHomeScreen> {
-  List<dynamic> movies = [];
-  final TextEditingController _serachController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _fetchMovies("");
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<MovieProvider>(context, listen: false).fetchMovies('');
+    });
   }
 
   @override
   void dispose() {
-    _serachController.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
-  Future<void> _fetchMovies(param) async {
-    try {
-      final results = await MovieService.searchMovie(param);
-      setState(() {
-        movies = results;
-      });
-    } catch (error) {
-      if (kDebugMode) {
-        print('Error msg: $error');
-      } // Todo: show error message and error handling
-    }
+  void _onSearchSubmitted(String query) {
+    Provider.of<MovieProvider>(context, listen: false).fetchMovies(query);
   }
 
   @override
   Widget build(BuildContext context) {
+    final movieProvider = context.watch<MovieProvider>();
+    final movies = movieProvider.movies;
+
     return Scaffold(
       appBar: AppBar(title: const Center(child: Text('Movies'))),
       body: SafeArea(
         child: Column(
           children: [
-            // Kereső mező
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
-                controller: _serachController,
+                controller: _searchController,
                 decoration: const InputDecoration(
                   prefixIcon: Icon(Icons.search),
                   hintText: 'Search for a movie',
                   border: OutlineInputBorder(),
                 ),
-                onSubmitted: (value) {
-                  _fetchMovies(value);
-                },
+                onSubmitted: _onSearchSubmitted,
               ),
             ),
             Expanded(
@@ -69,9 +61,19 @@ class _MoviesHomeScreenState extends State<MoviesHomeScreen> {
                         itemBuilder: (context, index) {
                           final movie = movies[index];
                           return ListTile(
-                            title: Text(movie['title'] ?? 'No title'),
+                            leading: Image.network(
+                              movie.fullPosterUrl,
+                              fit: BoxFit.cover,
+                              width: 50,
+                              errorBuilder: (context, error, stackTrace) {
+                                return const Icon(Icons.error);
+                              },
+                            ),
+                            title: Text(movie.title),
                             subtitle: Text(
-                              movie['release_date'] ?? 'Unknown release date',
+                              movie.overview,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           );
                         },
