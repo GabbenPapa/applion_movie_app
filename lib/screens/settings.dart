@@ -69,7 +69,6 @@ class _SettingsState extends State<Settings> {
                     ),
                     child: DropdownButton<String>(
                       value: _selectedLanguage,
-                      dropdownColor: Theme.of(context).colorScheme.onSurface,
                       items:
                           languageMap.keys
                               .map(
