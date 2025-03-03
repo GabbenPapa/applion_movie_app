@@ -1,5 +1,6 @@
 import 'package:applion_movie_app/models/movies_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MoviesDetailScreen extends StatefulWidget {
   static const routeName = '/movie_detail';
@@ -60,24 +61,24 @@ class _MoviesDetailScreenState extends State<MoviesDetailScreen> {
                                 ),
                               ),
                               Text(
-                                'Original title: ${widget.movie.originalTitle}',
+                                '${AppLocalizations.of(context)!.original_title}: ${widget.movie.originalTitle}',
                                 style: TextStyle(fontSize: 16),
                               ),
                               Text(
-                                'Year: ${widget.movie.releaseDate.split("-")[0]}',
+                                '${AppLocalizations.of(context)!.release_date}: ${widget.movie.releaseDate.split("-")[0]}',
                                 style: TextStyle(fontSize: 16),
                               ),
                               Text(
-                                'Original language: ${widget.movie.originalLanguage.toUpperCase()}',
+                                '${AppLocalizations.of(context)!.original_language}: ${widget.movie.originalLanguage.toUpperCase()}',
                                 style: TextStyle(fontSize: 16),
                               ),
 
                               Text(
-                                'Votes: ${widget.movie.voteCount}',
+                                '${AppLocalizations.of(context)!.votes}: ${widget.movie.voteCount}',
                                 style: TextStyle(fontSize: 16),
                               ),
                               Text(
-                                'Popularity: ${widget.movie.popularity.toStringAsFixed(1)}',
+                                '${AppLocalizations.of(context)!.popularity}: ${widget.movie.popularity.toStringAsFixed(1)}',
                                 style: TextStyle(fontSize: 16),
                               ),
                               const SizedBox(height: 10),

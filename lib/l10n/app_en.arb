@@ -1,5 +1,15 @@
 {
   "@@locale": "en",
+	"movies": "Movies",
+	"search": "Search",
+	"empty_movies": "No movies found, search some movies!",
+	"settings": "Settings",
+	"language": "Language",
+	"original_title": "Original title",
+	"year" : "Year",
+	"original_language": "Original language",
+	"release_date": "Release date",
+	"votes": "Votes",
+	"popularity": "Popularity"
 
-	"movies": "Movies"
 }

@@ -4,6 +4,7 @@ import 'package:applion_movie_app/providers/movie_provider.dart';
 import 'package:applion_movie_app/screens/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MoviesHomeScreen extends StatefulWidget {
   static const routeName = '/movie_home';
@@ -53,9 +54,9 @@ class _MoviesHomeScreenState extends State<MoviesHomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Center(
+        title: Center(
           child: Text(
-            'Movies',
+            AppLocalizations.of(context)!.movies,
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
           ),
         ),
@@ -76,10 +77,10 @@ class _MoviesHomeScreenState extends State<MoviesHomeScreen> {
               // Search area
               child: TextField(
                 controller: _searchController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   hintStyle: TextStyle(color: Colors.grey),
                   prefixIcon: Icon(Icons.search, color: Colors.grey),
-                  hintText: 'Search',
+                  hintText: AppLocalizations.of(context)!.search,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(12)),
                     borderSide: BorderSide.none,
@@ -94,9 +95,10 @@ class _MoviesHomeScreenState extends State<MoviesHomeScreen> {
             Expanded(
               child:
                   movies.isEmpty
-                      ? const Center(
+                      ? Center(
                         child: Text(
-                          'No movies found, search some movies!',
+                          AppLocalizations.of(context)!.empty_movies,
+
                           style: TextStyle(fontSize: 18),
                         ),
                       )

@@ -1,4 +1,14 @@
 {
   "@@locale": "hu",
-	"movies": "Filmek"
+	"movies": "Filmek",
+	"settings": "Beállítások",
+	"search": "Keresés",
+	"empty_movies": "Nincs megjelenített film!",
+	"language":	"Nyelv",
+	"original_title": "Eredeti cím",
+	"year" : "Év",
+	"original_language": "Eredeti nyelv",
+	"release_date": "Megjelenés dátuma",
+	"votes": "Szavazatok",
+	"popularity": "Népszerűség"
 }

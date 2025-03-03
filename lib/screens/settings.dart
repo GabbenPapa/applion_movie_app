@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:applion_movie_app/providers/settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Settings extends StatefulWidget {
   static const routeName = '/settings';
@@ -43,8 +44,7 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(title: Text(AppLocalizations.of(context)!.settings)),
-      appBar: AppBar(title: Text('Settings')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.settings)),
 
       body: Stack(
         children: [
@@ -60,8 +60,7 @@ class _SettingsState extends State<Settings> {
               children: [
                 // Language Dropdown
                 ListTile(
-                  // title: Text(AppLocalizations.of(context)!.language),
-                  title: Text('Language'),
+                  title: Text(AppLocalizations.of(context)!.language),
                   trailing: Container(
                     padding: EdgeInsets.symmetric(horizontal: 8),
                     decoration: BoxDecoration(
@@ -78,9 +77,15 @@ class _SettingsState extends State<Settings> {
                                 ),
                               )
                               .toList(),
-                      onChanged: (newLang) {
+                      onChanged: (newLang) async {
                         if (newLang == null) return;
+
                         setSelectedLanguage(newLang);
+                        final languageCode = languageMap[newLang]!;
+                        await Provider.of<LanguageProvider>(
+                          context,
+                          listen: false,
+                        ).setLanguage(languageCode);
                       },
                     ),
                   ),
